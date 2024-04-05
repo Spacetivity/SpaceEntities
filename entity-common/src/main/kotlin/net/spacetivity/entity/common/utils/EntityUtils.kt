@@ -66,9 +66,6 @@ object EntityUtils {
             }
         }
 
-//        val villagerData: WrappedVillagerData = WrappedVillagerData.fromValues(WrappedVillagerData.Type.JUNGLE, WrappedVillagerData.Profession.CLERIC, 1)
-//        baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(17, WrappedDataWatcher.Registry.get(WrappedVillagerData.getNmsClass())), villagerData.handle)
-
         baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), byteFlags.toByte())
 
         val wrappedDataValueList: ArrayList<WrappedDataValue> = arrayListOf()

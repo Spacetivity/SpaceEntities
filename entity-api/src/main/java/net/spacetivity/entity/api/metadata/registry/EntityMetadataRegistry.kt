@@ -29,10 +29,6 @@ class EntityMetadataRegistry {
         val FLYING_ELYTRA = EntityMetadataByte(0, 0x80.toByte())
     }
 
-    object Villager {
-
-    }
-
     object ArmorStand {
         val NO_BASEPLATE = EntityMetadataByte(15, 0x08.toByte())
         val HAS_ARMS = EntityMetadataByte(15, 0x04.toByte())
