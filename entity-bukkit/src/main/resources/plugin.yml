@@ -1,0 +1,8 @@
+name: ElytraEntities
+version: '1.0'
+main: net.spacetivity.entity.bukkit.EntityBukkitPlugin
+api-version: "1.20"
+authors:
+  - TGamings
+depend:
+  - ProtocolLib
