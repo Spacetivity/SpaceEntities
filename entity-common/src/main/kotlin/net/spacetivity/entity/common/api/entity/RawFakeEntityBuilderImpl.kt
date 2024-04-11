@@ -3,7 +3,8 @@ package net.spacetivity.entity.common.api.entity
 import net.kyori.adventure.text.Component
 import net.spacetivity.entity.api.entity.RawFakeEntity
 import net.spacetivity.entity.api.entity.RawFakeEntityBuilder
-import net.spacetivity.entity.api.metadata.EntityMetadata
+import net.spacetivity.entity.api.properties.EntityProperties
+import net.spacetivity.entity.api.properties.EntityPropertiesBuilder
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
 
@@ -13,7 +14,7 @@ class RawFakeEntityBuilderImpl(private val key: String, private val location: Lo
     private var customName: Component = Component.empty()
     private var isVisible: Boolean = true
 
-    private val metadataStorage: MutableMap<EntityMetadata<*>, Any?> = mutableMapOf()
+    private var properties = EntityProperties(mutableMapOf(), false, 5.0, mutableMapOf())
 
     override fun customNameShown(isCustomNameShown: Boolean): RawFakeEntityBuilder {
         this.isCustomNameShown = isCustomNameShown
@@ -30,13 +31,13 @@ class RawFakeEntityBuilderImpl(private val key: String, private val location: Lo
         return this
     }
 
-    override fun <T> addMetadata(metadata: EntityMetadata<T>, vararg customValue: T?): RawFakeEntityBuilder {
-        this.metadataStorage[metadata] = customValue
+    override fun properties(propertiesBuilder: EntityPropertiesBuilder): RawFakeEntityBuilder {
+        this.properties = propertiesBuilder.build()
         return this
     }
 
     override fun build(): RawFakeEntity {
-        return RawFakeEntityImpl(this.key, this.isCustomNameShown, this.customName, this.isVisible, this.type, this.location, this.metadataStorage)
+        return RawFakeEntityImpl(this.key, this.isCustomNameShown, this.customName, this.isVisible, this.type, this.location, this.properties)
     }
 
 }

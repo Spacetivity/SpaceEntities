@@ -1,13 +1,11 @@
 package net.spacetivity.entity.api.player
 
-import com.destroystokyo.paper.profile.ProfileProperty
+import com.destroystokyo.paper.profile.PlayerProfile
 import net.spacetivity.entity.api.utils.BaseEntity
-import net.spacetivity.entity.api.utils.Equipable
-import net.spacetivity.entity.api.utils.Rotatable
 
-interface FakePlayer : BaseEntity, Equipable, Rotatable {
+interface FakePlayer : BaseEntity {
 
-    val property: ProfileProperty
+    val profile: PlayerProfile
     val tablistRemovalTicks: Long
 
 }
