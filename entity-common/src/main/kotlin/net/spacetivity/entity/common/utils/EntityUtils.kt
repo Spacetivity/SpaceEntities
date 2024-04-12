@@ -1,9 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package net.spacetivity.entity.common.utils
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolManager
 import com.comphenix.protocol.events.InternalStructure
 import com.comphenix.protocol.events.PacketContainer
+import com.comphenix.protocol.reflect.StructureModifier
 import com.comphenix.protocol.wrappers.*
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject
@@ -13,6 +16,7 @@ import net.spacetivity.entity.api.metadata.registry.EntityMetadataRegistry
 import net.spacetivity.entity.api.metadata.type.EntityMetadataByte
 import net.spacetivity.entity.api.metadata.type.EntityMetadataCustomName
 import net.spacetivity.entity.api.utils.BaseEntity
+import net.spacetivity.entity.common.api.armorstand.FakeArmorStandImpl
 import net.spacetivity.entity.common.api.player.FakePlayerImpl
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -47,8 +51,10 @@ object EntityUtils {
         setMetadata(baseEntity)
         setEquipment(baseEntity, viewer)
 
-        if (baseEntity is FakePlayerImpl) {
+        if (baseEntity is FakePlayerImpl || baseEntity is FakeArmorStandImpl)
             setRotation(baseEntity, viewer)
+
+        if (baseEntity is FakePlayerImpl) {
             removeFakePlayerName(baseEntity, viewer)
 
             Bukkit.getScheduler().runTaskLater(EntityProvider.api.plugin, Runnable {
@@ -72,7 +78,8 @@ object EntityUtils {
 
         packetContainer.integers.write(0, baseEntity.entityId)
 
-        var byteFlags = 0
+        var globalByteFlags = 0
+        var armorStandByteFlags = 0
 
         for (mutableEntry: MutableMap.MutableEntry<EntityMetadata<*>, Any?> in baseEntity.properties.metadataStorage) {
             val metadata: EntityMetadata<*> = mutableEntry.key
@@ -80,7 +87,10 @@ object EntityUtils {
 
             if (metadata.index == 0 && metadata is EntityMetadataByte) {
                 val bitFlag: Byte = metadata.defaultValue ?: continue
-                byteFlags = byteFlags or bitFlag.toInt()
+                globalByteFlags = globalByteFlags or bitFlag.toInt()
+            } else if (metadata.index == 15 && metadata is EntityMetadataByte) {
+                val bitFlag: Byte = metadata.defaultValue ?: continue
+                armorStandByteFlags = armorStandByteFlags or bitFlag.toInt()
             } else {
                 val safeValue: Any = customValue ?: (metadata.defaultValue ?: continue)
 
@@ -94,17 +104,20 @@ object EntityUtils {
         }
 
         if (baseEntity is FakePlayerImpl) {
-            var skinByteFlags = 0
+            var fakePlayerByteFlags = 0
 
-            for (skinPartData: EntityMetadataByte in EntityMetadataRegistry.FakePlayer.metadataTypes.map { it as EntityMetadataByte }) {
+            for (skinPartData: EntityMetadataByte in EntityMetadataRegistry.FakePlayer.elements.map { it as EntityMetadataByte }) {
                 val bitFlag: Byte = skinPartData.defaultValue ?: continue
-                skinByteFlags = byteFlags or bitFlag.toInt()
+                fakePlayerByteFlags = globalByteFlags or bitFlag.toInt()
             }
 
-            baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(17, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), skinByteFlags.toByte())
+            baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(17, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), fakePlayerByteFlags.toByte())
         }
 
-        baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), byteFlags.toByte())
+        baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), globalByteFlags.toByte())
+
+        if (baseEntity is FakeArmorStandImpl)
+            baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(15, WrappedDataWatcher.Registry.get(Byte::class.javaObjectType)), armorStandByteFlags.toByte())
 
         val wrappedDataValueList: ArrayList<WrappedDataValue> = arrayListOf()
 
@@ -188,7 +201,7 @@ object EntityUtils {
             structure.strings.write(0, "never")
             structure.strings.write(1, "always")
 
-            val enumModifier = structure.getEnumModifier(ChatColor::class.java, 5)
+            val enumModifier: StructureModifier<ChatColor> = structure.getEnumModifier(ChatColor::class.java, 5)
             enumModifier.write(0, ChatColor.RESET)
 
             structure.integers.write(0, 1)

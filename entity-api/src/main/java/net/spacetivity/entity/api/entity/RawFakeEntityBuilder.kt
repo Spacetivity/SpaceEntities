@@ -7,7 +7,6 @@ import net.spacetivity.entity.api.utils.BaseEntityBuilder
 interface RawFakeEntityBuilder : BaseEntityBuilder<RawFakeEntity> {
 
     fun customNameShown(isCustomNameShown: Boolean): RawFakeEntityBuilder
-
     fun customName(customName: Component): RawFakeEntityBuilder
 
     fun visible(isVisible: Boolean): RawFakeEntityBuilder
