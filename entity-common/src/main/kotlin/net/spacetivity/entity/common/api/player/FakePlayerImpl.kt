@@ -47,11 +47,11 @@ class FakePlayerImpl(
     }
 
     override fun despawn(viewer: UUID) {
-
+        EntityUtils.despawn(this, viewer)
     }
 
-    override fun teleport(location: Location) {
-
+    override fun teleport(location: Location, viewer: UUID) {
+        EntityUtils.teleport(this, location, viewer)
     }
 
 }

@@ -59,8 +59,6 @@ class FakeArmorStandImpl(
         if (this.hasArms) this.properties.metadataStorage[armorStandData.HAS_ARMS] = null
         if (this.isSmall) this.properties.metadataStorage[armorStandData.IS_SMALL] = null
         if (this.isMarker) this.properties.metadataStorage[armorStandData.IS_MARKER] = null
-
-        //TODO: this.properties.metadataStorage[armorStandData.IS_MARKER] = this.isMarker
     }
 
     override fun spawn(viewer: UUID) {
@@ -71,8 +69,8 @@ class FakeArmorStandImpl(
         EntityUtils.despawn(this, viewer)
     }
 
-    override fun teleport(location: Location) {
-
+    override fun teleport(location: Location, viewer: UUID) {
+        EntityUtils.teleport(this, location, viewer)
     }
 
 }

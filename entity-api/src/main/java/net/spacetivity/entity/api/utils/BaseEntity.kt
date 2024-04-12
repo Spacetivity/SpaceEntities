@@ -28,8 +28,8 @@ interface BaseEntity {
 
     fun despawn(viewer: UUID)
 
-    fun teleport(location: Location)
-    
+    fun teleport(location: Location, viewer: UUID)
+
     fun update(viewer: UUID) = EntityProvider.api.setEntityMetadata(this, viewer)
 
 }

@@ -20,6 +20,7 @@ import net.spacetivity.entity.common.api.armorstand.FakeArmorStandImpl
 import net.spacetivity.entity.common.api.player.FakePlayerImpl
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
@@ -71,6 +72,19 @@ object EntityUtils {
 
         this.packetManager.sendServerPacket(viewer, packetContainer)
         baseEntity.viewers.remove(viewer.uniqueId)
+    }
+
+    fun teleport(baseEntity: BaseEntity, location: Location, uuid: UUID) {
+        val packetContainer: PacketContainer = this.packetManager.createPacket(PacketType.Play.Server.ENTITY_TELEPORT)
+        packetContainer.integers.write(0, baseEntity.entityId)
+        packetContainer.doubles.write(0, location.x)
+        packetContainer.doubles.write(1, location.y)
+        packetContainer.doubles.write(2, location.z)
+        packetContainer.bytes.write(0, (location.yaw * 256f / 360f).toInt().toByte())
+        packetContainer.bytes.write(1, (location.pitch * 256f / 360f).toInt().toByte())
+
+        val viewer: Player = Bukkit.getPlayer(uuid) ?: return
+        this.packetManager.sendServerPacket(viewer, packetContainer)
     }
 
     fun setMetadata(baseEntity: BaseEntity, uuid: UUID) {
