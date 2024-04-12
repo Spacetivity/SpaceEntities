@@ -48,7 +48,7 @@ object EntityUtils {
 
         this.packetManager.sendServerPacket(viewer, packetContainer)
 
-        setMetadata(baseEntity)
+        setMetadata(baseEntity, viewer.uniqueId)
         setEquipment(baseEntity, viewer)
 
         if (baseEntity is FakePlayerImpl || baseEntity is FakeArmorStandImpl)
@@ -73,7 +73,7 @@ object EntityUtils {
         baseEntity.viewers.remove(viewer.uniqueId)
     }
 
-    private fun setMetadata(baseEntity: BaseEntity) {
+    fun setMetadata(baseEntity: BaseEntity, uuid: UUID) {
         val packetContainer: PacketContainer = packetManager.createPacket(PacketType.Play.Server.ENTITY_METADATA)
 
         packetContainer.integers.write(0, baseEntity.entityId)
@@ -128,9 +128,8 @@ object EntityUtils {
 
         packetContainer.dataValueCollectionModifier.write(0, wrappedDataValueList)
 
-        for (viewer: Player in baseEntity.viewers.mapNotNull { Bukkit.getPlayer(it) }) {
-            packetManager.sendServerPacket(viewer, packetContainer)
-        }
+        val viewer: Player = Bukkit.getPlayer(uuid) ?: return
+        packetManager.sendServerPacket(viewer, packetContainer)
     }
 
     private fun setEquipment(baseEntity: BaseEntity, viewer: Player) {

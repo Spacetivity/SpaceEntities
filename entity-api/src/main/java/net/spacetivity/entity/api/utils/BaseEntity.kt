@@ -2,6 +2,7 @@ package net.spacetivity.entity.api.utils
 
 import com.comphenix.protocol.wrappers.WrappedDataWatcher
 import net.kyori.adventure.text.Component
+import net.spacetivity.entity.api.EntityProvider
 import net.spacetivity.entity.api.properties.EntityProperties
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
@@ -28,5 +29,7 @@ interface BaseEntity {
     fun despawn(viewer: UUID)
 
     fun teleport(location: Location)
+    
+    fun update(viewer: UUID) = EntityProvider.api.setEntityMetadata(this, viewer)
 
 }
