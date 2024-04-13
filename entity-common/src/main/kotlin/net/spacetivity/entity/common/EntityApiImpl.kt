@@ -4,11 +4,13 @@ import com.comphenix.protocol.ProtocolManager
 import com.destroystokyo.paper.profile.PlayerProfile
 import net.spacetivity.entity.api.EntityApi
 import net.spacetivity.entity.api.armorstand.FakeArmorStandBuilder
+import net.spacetivity.entity.api.display.FakeTextDisplayBuilder
 import net.spacetivity.entity.api.entity.RawFakeEntityBuilder
 import net.spacetivity.entity.api.player.FakePlayerBuilder
 import net.spacetivity.entity.api.properties.EntityPropertiesBuilder
 import net.spacetivity.entity.api.utils.BaseEntity
 import net.spacetivity.entity.common.api.armorstand.FakeArmorStandBuilderImpl
+import net.spacetivity.entity.common.api.display.FakeTextDisplayBuilderImpl
 import net.spacetivity.entity.common.api.entity.RawFakeEntityBuilderImpl
 import net.spacetivity.entity.common.api.player.FakePlayerBuilderImpl
 import net.spacetivity.entity.common.api.properties.EntityPropertiesBuilderImpl
@@ -30,6 +32,10 @@ class EntityApiImpl(override val plugin: JavaPlugin, override val protocolManage
 
     override fun fakeArmorStand(key: String, location: Location): FakeArmorStandBuilder {
         return FakeArmorStandBuilderImpl(key, location)
+    }
+
+    override fun fakeTextDisplay(key: String, location: Location): FakeTextDisplayBuilder {
+        return FakeTextDisplayBuilderImpl(key, location)
     }
 
     override fun fakePlayer(key: String, location: Location, profile: PlayerProfile): FakePlayerBuilder {

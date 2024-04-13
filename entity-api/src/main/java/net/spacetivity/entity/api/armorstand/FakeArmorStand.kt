@@ -5,18 +5,18 @@ import org.joml.Vector3f
 
 interface FakeArmorStand : BaseEntity {
 
-    val headRotation: Vector3f
-    val bodyRotation: Vector3f
+    var headRotation: Vector3f
+    var bodyRotation: Vector3f
 
-    val leftArmRotation: Vector3f
-    val rightArmRotation: Vector3f
+    var leftArmRotation: Vector3f
+    var rightArmRotation: Vector3f
 
-    val leftLegRotation: Vector3f
-    val rightLegRotation: Vector3f
+    var leftLegRotation: Vector3f
+    var rightLegRotation: Vector3f
 
-    val noBasePlate: Boolean
-    val hasArms: Boolean
-    val isSmall: Boolean
-    val isMarker: Boolean
+    var noBasePlate: Boolean
+    var hasArms: Boolean
+    var isSmall: Boolean
+    var isMarker: Boolean
 
 }

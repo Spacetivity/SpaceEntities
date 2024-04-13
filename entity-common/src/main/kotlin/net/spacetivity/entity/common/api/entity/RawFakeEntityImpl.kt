@@ -15,10 +15,10 @@ import java.util.*
 class RawFakeEntityImpl(
     override val key: String,
     override val isCustomNameShown: Boolean,
-    override val customName: Component,
-    override val isVisible: Boolean,
+    override var customName: Component,
+    override var isVisible: Boolean,
     override val type: EntityType,
-    override val location: Location,
+    override var location: Location,
     override val properties: EntityProperties
 ) : RawFakeEntity {
 
@@ -30,7 +30,7 @@ class RawFakeEntityImpl(
 
     init {
         if (this.isCustomNameShown) {
-            this.properties.metadataStorage[EntityMetadataRegistry.Global.CUSTOM_NAME] = AdventureComponentConverter.fromComponent(this.customName)
+            addMetadata(EntityMetadataRegistry.Global.CUSTOM_NAME, AdventureComponentConverter.fromComponent(this.customName))
         }
     }
 

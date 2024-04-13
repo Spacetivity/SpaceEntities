@@ -19,16 +19,16 @@ class FakePlayerImpl(
     override val key: String,
     override val tablistRemovalTicks: Long,
     override val profile: PlayerProfile,
-    override val isVisible: Boolean,
+    override var isVisible: Boolean,
     override val type: EntityType,
-    override val location: Location,
+    override var location: Location,
     override val properties: EntityProperties
 ) : FakePlayer {
 
     override val uuid: UUID = UUID.randomUUID()
     override val entityId: Int = EntityProvider.api.randomEntityId()
     override val isCustomNameShown: Boolean = false
-    override val customName: Component = Component.text("npc-" + this.uuid.toString().split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]);
+    override var customName: Component = Component.text("npc-" + this.uuid.toString().split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]);
     override val dataWatcher: WrappedDataWatcher = WrappedDataWatcher()
 
     override val viewers: MutableSet<UUID> = mutableSetOf()

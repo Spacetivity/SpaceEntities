@@ -3,6 +3,7 @@ package net.spacetivity.entity.api
 import com.comphenix.protocol.ProtocolManager
 import com.destroystokyo.paper.profile.PlayerProfile
 import net.spacetivity.entity.api.armorstand.FakeArmorStandBuilder
+import net.spacetivity.entity.api.display.FakeTextDisplayBuilder
 import net.spacetivity.entity.api.entity.RawFakeEntityBuilder
 import net.spacetivity.entity.api.player.FakePlayerBuilder
 import net.spacetivity.entity.api.properties.EntityPropertiesBuilder
@@ -23,6 +24,7 @@ interface EntityApi {
 
     fun fakeEntity(key: String, type: EntityType, location: Location): RawFakeEntityBuilder
     fun fakeArmorStand(key: String, location: Location): FakeArmorStandBuilder
+    fun fakeTextDisplay(key: String, location: Location): FakeTextDisplayBuilder
     fun fakePlayer(key: String, location: Location, profile: PlayerProfile): FakePlayerBuilder
 
     fun newEntityProperties(): EntityPropertiesBuilder

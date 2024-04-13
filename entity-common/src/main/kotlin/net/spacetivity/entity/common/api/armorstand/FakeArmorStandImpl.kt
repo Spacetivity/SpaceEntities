@@ -16,21 +16,21 @@ import java.util.*
 class FakeArmorStandImpl(
     override val key: String,
     override val isCustomNameShown: Boolean,
-    override val customName: Component,
-    override val isVisible: Boolean,
+    override var customName: Component,
+    override var isVisible: Boolean,
     override val type: EntityType,
-    override val location: Location,
+    override var location: Location,
     override val properties: EntityProperties,
-    override val headRotation: Vector3f,
-    override val bodyRotation: Vector3f,
-    override val leftArmRotation: Vector3f,
-    override val rightArmRotation: Vector3f,
-    override val leftLegRotation: Vector3f,
-    override val rightLegRotation: Vector3f,
-    override val noBasePlate: Boolean,
-    override val hasArms: Boolean,
-    override val isSmall: Boolean,
-    override val isMarker: Boolean
+    override var headRotation: Vector3f,
+    override var bodyRotation: Vector3f,
+    override var leftArmRotation: Vector3f,
+    override var rightArmRotation: Vector3f,
+    override var leftLegRotation: Vector3f,
+    override var rightLegRotation: Vector3f,
+    override var noBasePlate: Boolean,
+    override var hasArms: Boolean,
+    override var isSmall: Boolean,
+    override var isMarker: Boolean
 ) : FakeArmorStand {
 
     override val uuid: UUID = UUID.randomUUID()
@@ -46,19 +46,19 @@ class FakeArmorStandImpl(
 
         val armorStandData = EntityMetadataRegistry.ArmorStand
 
-        this.properties.metadataStorage[armorStandData.HEAD_ROTATION] = this.headRotation
-        this.properties.metadataStorage[armorStandData.BODY_ROTATION] = this.bodyRotation
+        addMetadata(armorStandData.HEAD_ROTATION, this.headRotation)
+        addMetadata(armorStandData.BODY_ROTATION, this.bodyRotation)
 
-        this.properties.metadataStorage[armorStandData.LEFT_ARM_ROTATION] = this.leftArmRotation
-        this.properties.metadataStorage[armorStandData.RIGHT_ARM_ROTATION] = this.rightArmRotation
+        addMetadata(armorStandData.LEFT_ARM_ROTATION, this.leftArmRotation)
+        addMetadata(armorStandData.RIGHT_ARM_ROTATION, this.rightArmRotation)
 
-        this.properties.metadataStorage[armorStandData.LEFT_LEG_ROTATION] = this.leftLegRotation
-        this.properties.metadataStorage[armorStandData.RIGHT_LEG_ROTATION] = this.rightLegRotation
+        addMetadata(armorStandData.LEFT_LEG_ROTATION, this.leftLegRotation)
+        addMetadata(armorStandData.RIGHT_LEG_ROTATION, this.rightLegRotation)
 
-        if (this.noBasePlate) this.properties.metadataStorage[armorStandData.NO_BASEPLATE] = null
-        if (this.hasArms) this.properties.metadataStorage[armorStandData.HAS_ARMS] = null
-        if (this.isSmall) this.properties.metadataStorage[armorStandData.IS_SMALL] = null
-        if (this.isMarker) this.properties.metadataStorage[armorStandData.IS_MARKER] = null
+        if (this.noBasePlate) addMetadata(armorStandData.NO_BASEPLATE, null)
+        if (this.hasArms) addMetadata(armorStandData.HAS_ARMS, null)
+        if (this.isSmall) addMetadata(armorStandData.IS_SMALL, null)
+        if (this.isMarker) addMetadata(armorStandData.IS_MARKER, null)
     }
 
     override fun spawn(viewer: UUID) {

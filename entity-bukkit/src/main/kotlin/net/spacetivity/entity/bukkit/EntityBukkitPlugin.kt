@@ -2,8 +2,9 @@ package net.spacetivity.entity.bukkit
 
 import com.comphenix.protocol.ProtocolLibrary
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import net.spacetivity.entity.api.EntityProvider
-import net.spacetivity.entity.api.armorstand.FakeArmorStand
+import net.spacetivity.entity.api.display.FakeTextDisplay
 import net.spacetivity.entity.common.EntityApiImpl
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -11,7 +12,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.java.JavaPlugin
-import org.joml.Vector3f
 
 class EntityBukkitPlugin : JavaPlugin(), Listener {
 
@@ -29,16 +29,15 @@ class EntityBukkitPlugin : JavaPlugin(), Listener {
         if (player.inventory.itemInMainHand.type != Material.STICK) return
         if (player.name != "TGamings") return
 
-        val fakeArmorStand: FakeArmorStand = EntityProvider.api.fakeArmorStand("tgamings-test", player.location.add(1.0, 0.0, 2.0))
-            .customNameShown(true)
-            .customName(Component.text("Hello World"))
-            .leftLegRotation(Vector3f(0.0F, 1.5F, 2.4F))
-            .noBasePlate()
-            .enableArms()
-            .setSmall()
+        println(NamedTextColor.RED.value())
+
+        val textDisplay: FakeTextDisplay = EntityProvider.api.fakeTextDisplay("tgamings-test", player.location)
+           // .backgroundColor(NamedTextColor.RED.value())
+            .text(Component.text("Marco stinkt ganz doll!"))
+            .billboard(true)
             .build()
 
-        fakeArmorStand.viewers.add(player.uniqueId)
-        fakeArmorStand.spawn(player.uniqueId)
+        textDisplay.viewers.add(player.uniqueId)
+        textDisplay.spawn(player.uniqueId)
     }
 }
