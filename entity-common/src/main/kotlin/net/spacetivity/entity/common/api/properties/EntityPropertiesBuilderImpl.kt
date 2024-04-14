@@ -2,10 +2,12 @@ package net.spacetivity.entity.common.api.properties
 
 import com.comphenix.protocol.wrappers.EnumWrappers
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot
+import net.spacetivity.entity.api.event.FakeEntityInteractEvent
 import net.spacetivity.entity.api.metadata.EntityMetadata
 import net.spacetivity.entity.api.properties.EntityProperties
 import net.spacetivity.entity.api.properties.EntityPropertiesBuilder
 import org.bukkit.inventory.ItemStack
+import java.util.function.Consumer
 
 class EntityPropertiesBuilderImpl : EntityPropertiesBuilder {
 
@@ -14,6 +16,8 @@ class EntityPropertiesBuilderImpl : EntityPropertiesBuilder {
 
     private var rotationActive: Boolean = false
     private var rotationActionDistance: Double = 5.0
+
+    private var action: Consumer<FakeEntityInteractEvent>? = null
 
     override fun <T> addMetadata(metadata: EntityMetadata<T>, vararg customValue: T?): EntityPropertiesBuilder {
         this.metadataStorage[metadata] = customValue
@@ -35,8 +39,13 @@ class EntityPropertiesBuilderImpl : EntityPropertiesBuilder {
         return this
     }
 
+    override fun interaction(action: Consumer<FakeEntityInteractEvent>): EntityPropertiesBuilder {
+        this.action = action
+        return this
+    }
+
     override fun build(): EntityProperties {
-        return EntityProperties(this.metadataStorage, this.rotationActive, this.rotationActionDistance, this.equipment)
+        return EntityProperties(this.metadataStorage, this.rotationActive, this.rotationActionDistance, this.equipment, this.action)
     }
 
 }

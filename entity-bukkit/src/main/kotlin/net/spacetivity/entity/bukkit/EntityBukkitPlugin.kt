@@ -1,9 +1,12 @@
 package net.spacetivity.entity.bukkit
 
 import com.comphenix.protocol.ProtocolLibrary
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.spacetivity.entity.api.EntityProvider
 import net.spacetivity.entity.api.display.FakeTextDisplay
+import net.spacetivity.entity.api.metadata.registry.EntityMetadataRegistry
+import net.spacetivity.entity.api.properties.EntityPropertiesBuilder
 import net.spacetivity.entity.common.EntityApiImpl
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -32,6 +35,10 @@ class EntityBukkitPlugin : JavaPlugin(), Listener {
             .billboard(true)
             .transparentBackgroundColor()
             .shadow()
+            .properties(EntityPropertiesBuilder.builder()
+                .addMetadata(EntityMetadataRegistry.Global.GLOWING)
+                .interaction { player.sendMessage(Component.text("Hello World!")) }
+            )
             .build()
 
         textDisplay.viewers.add(player.uniqueId)

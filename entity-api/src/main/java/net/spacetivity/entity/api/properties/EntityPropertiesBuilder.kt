@@ -2,8 +2,10 @@ package net.spacetivity.entity.api.properties
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot
 import net.spacetivity.entity.api.EntityProvider
+import net.spacetivity.entity.api.event.FakeEntityInteractEvent
 import net.spacetivity.entity.api.metadata.EntityMetadata
 import org.bukkit.inventory.ItemStack
+import java.util.function.Consumer
 
 interface EntityPropertiesBuilder {
 
@@ -18,6 +20,8 @@ interface EntityPropertiesBuilder {
     fun rotationActionDistance(distance: Double): EntityPropertiesBuilder
 
     fun equipItemStack(itemSlot: ItemSlot, itemStack: ItemStack): EntityPropertiesBuilder
+
+    fun interaction(action: Consumer<FakeEntityInteractEvent>): EntityPropertiesBuilder
 
     fun build(): EntityProperties
 

@@ -5,6 +5,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher
 import net.kyori.adventure.text.Component
 import net.spacetivity.entity.api.EntityProvider
 import net.spacetivity.entity.api.armorstand.FakeArmorStand
+import net.spacetivity.entity.api.event.FakeEntityInteractEvent
 import net.spacetivity.entity.api.metadata.registry.EntityMetadataRegistry
 import net.spacetivity.entity.api.properties.EntityProperties
 import net.spacetivity.entity.common.utils.EntityUtils
@@ -12,6 +13,7 @@ import org.bukkit.Location
 import org.bukkit.entity.EntityType
 import org.joml.Vector3f
 import java.util.*
+import java.util.function.Consumer
 
 class FakeArmorStandImpl(
     override val key: String,

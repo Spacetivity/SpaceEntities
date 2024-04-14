@@ -121,8 +121,6 @@ object EntityUtils {
             } else {
                 val safeValue: Any = customValue ?: (metadata.defaultValue ?: continue)
 
-                println("Index: ${metadata.index} : Value: $safeValue")
-
                 if (baseEntity.isCustomNameShown && metadata is EntityMetadataCustomName) {
                     baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(metadata.index, metadata.serializer), Optional.of(safeValue))
                     baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean::class.javaObjectType)), true)

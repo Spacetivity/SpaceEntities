@@ -8,12 +8,14 @@ import com.destroystokyo.paper.profile.ProfileProperty
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import net.spacetivity.entity.api.EntityProvider
+import net.spacetivity.entity.api.event.FakeEntityInteractEvent
 import net.spacetivity.entity.api.player.FakePlayer
 import net.spacetivity.entity.api.properties.EntityProperties
 import net.spacetivity.entity.common.utils.EntityUtils
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
 import java.util.*
+import java.util.function.Consumer
 
 class FakePlayerImpl(
     override val key: String,

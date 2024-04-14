@@ -29,7 +29,7 @@ class FakeArmorStandBuilderImpl(private val key: String, private val location: L
     private var isSmall: Boolean = false
     private var isMarker: Boolean = false
 
-    private var properties = EntityProperties(mutableMapOf(), false, 5.0, mutableMapOf())
+    private var properties = EntityProperties(mutableMapOf(), false, 5.0, mutableMapOf(), null)
 
     override fun customNameShown(isCustomNameShown: Boolean): FakeArmorStandBuilder {
         this.isCustomNameShown = isCustomNameShown
