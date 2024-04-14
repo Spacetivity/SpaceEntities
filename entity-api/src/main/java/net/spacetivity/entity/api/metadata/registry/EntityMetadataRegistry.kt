@@ -1,7 +1,6 @@
 package net.spacetivity.entity.api.metadata.registry
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent
-import com.comphenix.protocol.wrappers.WrappedDataWatcher.Serializer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.spacetivity.entity.api.metadata.EntityMetadata
@@ -11,17 +10,10 @@ import org.joml.Vector3f
 
 class EntityMetadataRegistry {
 
-    companion object {
-        fun <T> customMetadata(index: Int, clazz: Class<T>, defaultValue: T?, serializer: Serializer): EntityMetadata<T> {
-            return EntityMetadata(index, clazz, defaultValue, serializer)
-        }
-    }
-
     object Global : MetadataCategory {
         override val elements: MutableSet<EntityMetadata<*>> = mutableSetOf()
 
         val CUSTOM_NAME = EntityMetadataCustomName()
-
         val INVISIBLE = EntityMetadataByte(0, 0x20.toByte())
         val NO_GRAVITY = EntityMetadataBoolean(5, false)
         val IS_ON_FIRE = EntityMetadataByte(0, 0x01.toByte())
@@ -99,7 +91,10 @@ class EntityMetadataRegistry {
         override val elements: MutableSet<EntityMetadata<*>> = mutableSetOf()
 
         val BILLBOARD_CONSTRAINTS = EntityMetadataByte(15, 1.toByte())
-        val TRANSLATION = EntityMetadataVector3f(11, Vector3f(0f, 1f, 0f))
+        val TRANSLATION = EntityMetadataVector3f(11, Vector3f(0.0f, 0.0f, 0.0f))
+        val SCALE = EntityMetadataVector3f(12, Vector3f(1.0f, 1.0f, 1.0f))
+        val WIDTH = EntityMetadataFloat(20, 0.0f)
+        val HEIGHT = EntityMetadataFloat(21, 1.0f)
         val TEXT = EntityMetadataComponent(23, WrappedChatComponent.fromJson(GsonComponentSerializer.gson().serialize(Component.empty())))
         val BACKGROUND_COLOR = EntityMetadataInt(25, 0x40000000)
         val TRANSPARENT_BACKGROUND_COLOR = EntityMetadataInt(25, 0x00000000)
@@ -111,6 +106,9 @@ class EntityMetadataRegistry {
         init {
             elements.add(BILLBOARD_CONSTRAINTS)
             elements.add(TRANSLATION)
+            elements.add(SCALE)
+            elements.add(WIDTH)
+            elements.add(HEIGHT)
             elements.add(TEXT)
             elements.add(BACKGROUND_COLOR)
             elements.add(TRANSPARENT_BACKGROUND_COLOR)

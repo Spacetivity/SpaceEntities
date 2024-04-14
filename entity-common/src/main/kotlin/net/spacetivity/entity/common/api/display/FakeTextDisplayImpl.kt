@@ -23,8 +23,12 @@ class FakeTextDisplayImpl(
     override val properties: EntityProperties,
     override var billboardConstraints: Boolean,
     override var translation: Vector3f,
+    override var scale: Vector3f,
+    override var width: Float,
+    override var height: Float,
     override var backgroundColor: Int,
     override var textOpacity: Byte,
+    override var hasShadow: Boolean,
     override var isSeeThrough: Boolean,
     override var text: Component,
 ) : FakeTextDisplay {
@@ -41,7 +45,13 @@ class FakeTextDisplayImpl(
         if (this.billboardConstraints) addMetadata(textDisplayData.BILLBOARD_CONSTRAINTS, null)
 
         addMetadata(textDisplayData.TRANSLATION, this.translation)
+        addMetadata(textDisplayData.SCALE, this.scale)
+        addMetadata(textDisplayData.WIDTH, this.width)
+        addMetadata(textDisplayData.HEIGHT, this.height)
         addMetadata(textDisplayData.BACKGROUND_COLOR, this.backgroundColor)
+
+        if (this.hasShadow) addMetadata(textDisplayData.HAS_SHADOW, null)
+
         addMetadata(textDisplayData.TEXT_OPACITY, this.textOpacity)
 
         if (this.isSeeThrough) addMetadata(textDisplayData.TEXT_OPACITY, null)

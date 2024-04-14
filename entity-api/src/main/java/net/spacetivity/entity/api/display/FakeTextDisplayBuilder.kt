@@ -11,11 +11,19 @@ interface FakeTextDisplayBuilder : BaseEntityBuilder<FakeTextDisplay> {
 
     fun translation(translation: Vector3f): FakeTextDisplayBuilder
 
+    fun scale(scale: Vector3f): FakeTextDisplayBuilder
+
+    fun width(width: Float): FakeTextDisplayBuilder
+
+    fun height(height: Float): FakeTextDisplayBuilder
+
     fun backgroundColor(colorAsInt: Int): FakeTextDisplayBuilder
 
     fun transparentBackgroundColor(): FakeTextDisplayBuilder
 
     fun textOpacity(textOpacity: Byte): FakeTextDisplayBuilder
+
+    fun shadow(): FakeTextDisplayBuilder
 
     fun seeThrough(): FakeTextDisplayBuilder
 

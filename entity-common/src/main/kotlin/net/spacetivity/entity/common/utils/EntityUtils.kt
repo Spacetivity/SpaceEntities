@@ -21,6 +21,7 @@ import net.spacetivity.entity.common.api.player.FakePlayerImpl
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
@@ -39,13 +40,25 @@ object EntityUtils {
 
         packetContainer.integers.write(0, baseEntity.entityId)
         packetContainer.uuiDs.write(0, baseEntity.uuid)
+        packetContainer.entityTypeModifier.write(0, baseEntity.type)
+
         packetContainer.doubles.write(0, baseEntity.location.x)
         packetContainer.doubles.write(1, baseEntity.location.y)
         packetContainer.doubles.write(2, baseEntity.location.z)
-        packetContainer.entityTypeModifier.write(0, baseEntity.type)
 
-        packetContainer.bytes.write(0, (baseEntity.location.pitch * 256F / 360F).toInt().toByte())
-        packetContainer.bytes.write(2, (baseEntity.location.yaw * 256F / 360F).toInt().toByte())
+        if (baseEntity.type == EntityType.TEXT_DISPLAY) {
+            packetContainer.integers.write(1, 0)
+            packetContainer.integers.write(2, 0)
+            packetContainer.integers.write(3, 0)
+            packetContainer.integers.write(4, 0)
+
+            packetContainer.bytes.write(0, 0.toByte())
+            packetContainer.bytes.write(1, 0.toByte())
+            packetContainer.bytes.write(2, 0.toByte())
+        } else {
+            packetContainer.bytes.write(0, (baseEntity.location.pitch * 256F / 360F).toInt().toByte())
+            packetContainer.bytes.write(2, (baseEntity.location.yaw * 256F / 360F).toInt().toByte())
+        }
 
         this.packetManager.sendServerPacket(viewer, packetContainer)
 
@@ -102,11 +115,13 @@ object EntityUtils {
             if (metadata.index == 0 && metadata is EntityMetadataByte) {
                 val bitFlag: Byte = metadata.defaultValue ?: continue
                 globalByteFlags = globalByteFlags or bitFlag.toInt()
-            } else if (metadata.index == 15 && metadata is EntityMetadataByte) {
+            } else if (baseEntity is FakeArmorStandImpl && metadata.index == 15 && metadata is EntityMetadataByte) {
                 val bitFlag: Byte = metadata.defaultValue ?: continue
                 armorStandByteFlags = armorStandByteFlags or bitFlag.toInt()
             } else {
                 val safeValue: Any = customValue ?: (metadata.defaultValue ?: continue)
+
+                println("Index: ${metadata.index} : Value: $safeValue")
 
                 if (baseEntity.isCustomNameShown && metadata is EntityMetadataCustomName) {
                     baseEntity.dataWatcher.setObject(WrappedDataWatcherObject(metadata.index, metadata.serializer), Optional.of(safeValue))

@@ -8,8 +8,12 @@ interface FakeTextDisplay : BaseEntity {
 
     var billboardConstraints: Boolean
     var translation: Vector3f
+    var scale: Vector3f
+    var width: Float
+    var height: Float
     var backgroundColor: Int
     var textOpacity: Byte
+    var hasShadow: Boolean
     var isSeeThrough: Boolean
     var text: Component
 

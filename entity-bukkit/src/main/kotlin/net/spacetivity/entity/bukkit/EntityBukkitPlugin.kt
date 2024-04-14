@@ -1,8 +1,7 @@
 package net.spacetivity.entity.bukkit
 
 import com.comphenix.protocol.ProtocolLibrary
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.minimessage.MiniMessage
 import net.spacetivity.entity.api.EntityProvider
 import net.spacetivity.entity.api.display.FakeTextDisplay
 import net.spacetivity.entity.common.EntityApiImpl
@@ -25,16 +24,14 @@ class EntityBukkitPlugin : JavaPlugin(), Listener {
     @EventHandler
     fun onJoin(event: PlayerInteractEvent) {
         val player: Player = event.player
-
         if (player.inventory.itemInMainHand.type != Material.STICK) return
         if (player.name != "TGamings") return
 
-        println(NamedTextColor.RED.value())
-
         val textDisplay: FakeTextDisplay = EntityProvider.api.fakeTextDisplay("tgamings-test", player.location)
-           // .backgroundColor(NamedTextColor.RED.value())
-            .text(Component.text("Marco stinkt ganz doll!"))
+            .text(MiniMessage.miniMessage().deserialize("<gradient:dark_red:red:white>Das ist ein Test!</gradient>"))
             .billboard(true)
+            .transparentBackgroundColor()
+            .shadow()
             .build()
 
         textDisplay.viewers.add(player.uniqueId)
